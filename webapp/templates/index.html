@@ -1,0 +1,214 @@
+{% extends "layouts/base.html" %}
+{% set active_page = "index" %}
+{% set title = "Device Control" %}
+
+{% block head %}
+{{ super() }}
+
+<link href="{{ url_for('static', filename='css/ruler.css') }}" rel="stylesheet">
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="row">
+  <div class="col-lg-9">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Image Scan</h6>
+          </div>
+          <div class="card-body">
+            <div class="text-center">
+              <img class="img-fluid px-3 px-sm-4 shadow"
+                style="padding: 0px!important; width: 600px; border-radius: 5px;"
+                src="{{ url_for('views.video_feed') }}" alt=""
+              >
+              <div class="row" style="margin-top: 10px">
+                <div class="col text-right">
+                  <small class="form-text text-muted" id="displayAccelerationVoltage">
+                      0 kV
+                  </small>
+                </div>
+                <div class="col text-left">
+                  <small class="form-text text-muted" style="padding-left: 60px;">
+                    <ul class="ruler" data-items="5"></ul>
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="col-lg-3">
+    <!-- Electron beam -->
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Electron Beam</h6>
+          </div>
+          <div class="card-body">
+            <p>
+              <button id="btnElectronBeamOn" class="btn btn-block btn-dark">
+                {% if config["General"].getboolean("IsPoweredOn") %}
+                  Power Off
+                {% else %}
+                  Power On
+                {% endif %}
+              </button>
+            </p>
+            <p>
+              <button id="btnElectronBeamAlign" class="btn btn-block btn-secondary">Align</button>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Image control -->
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Image Control</h6>
+          </div>
+          <div class="card-body">
+            <p class="btn-group" role="group" aria-label="Basic example" style="width:100%">
+              <button id="btnStartScan" class="btn btn-primary">Start</button>
+              <button id="btnStopScan" class="btn btn-danger">Stop</button>
+            </p>
+            <p>
+              <form id="formSaveScan" action="/api/save_scan" autocomplete="off">
+                <button id="btnSaveScan" type="submit" class="btn btn-block btn-info">Save</button>
+              </form>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sliders -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow mb-4">
+          <a href="#collapseImageSettings" class="d-block card-header py-3" data-toggle="collapse" role="button"
+            aria-expanded="true" aria-controls="collapseImageSettings">
+            <h6 class="m-0 font-weight-bold text-primary">Image Settings</h6>
+          </a>
+          <div class="collapse show" id="collapseImageSettings">
+            <div class="card-body">
+              <!-- Magnification slider -->
+              <div class="row image-settings-slider">
+                <div class="col-xl-5 text-center">
+                  Magnify
+                </div>
+                <div class="col-xl">
+                  <div class="slidecontainer">
+                    <!-- Range is 0-3.3V, but slider can't do floats. Calculation is to invert the value -->
+                    <input type="range" min="0" max="330" value="{{ (3.3 - config['User.ScanSettings'].getfloat('Magnify')) * 100 }}" class="slider" id="sliderImageMagnify">
+                  </div>
+                </div>
+              </div>
+              <!-- Brightness slider -->
+              <div class="row image-settings-slider">
+                <div class="col-xl-5 text-center">
+                  Brightness
+                </div>
+                <div class="col-xl">
+                  <div class="slidecontainer">
+                    <input type="range" min="0" max="330" value="{{ config['User.ScanSettings'].getfloat('Brightness')*100 }}" class="slider" id="sliderImageBrightness">
+                  </div>
+                </div>
+              </div>
+              <!-- Contrast slider -->
+              <div class="row image-settings-slider">
+                <div class="col-xl-5 text-center">
+                  Contrast
+                </div>
+                <div class="col-xl">
+                  <div class="slidecontainer">
+                    <input type="range" min="0" max="254" value="{{ config['User.ScanSettings']['Contrast'] }}" class="slider" id="sliderImageContrast">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scan speed -->
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card shadow mb-4">
+          <a href="#collapseScanRate" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button"
+            aria-expanded="true" aria-controls="collapseScanRate">
+            <h6 class="m-0 font-weight-bold text-primary">Scan Rate</h6>
+          </a>
+          <div class="collapse" id="collapseScanRate">
+            <div class="card-body">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="scanRates" id="scanRateSlowest">
+                <label class="form-check-label" for="scanRateSlowest">
+                  Slowest
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="scanRates" id="scanRateSlow">
+                <label class="form-check-label" for="scanRateSlow">
+                  Slow
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="scanRates" id="scanRateNormal"
+                  checked>
+                <label class="form-check-label" for="scanRateNormal">
+                  Normal
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="scanRates" id="scanRateFast">
+                <label class="form-check-label" for="scanRateFast">
+                  Fast
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="scanRates" id="scanRateFastest">
+                <label class="form-check-label" for="scanRateFastest">
+                  Fastest
+                </label>
+              </div>
+              <hr>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="scanRates" id="scanRateCustom">
+                <label class="form-check-label" for="scanRateCustom">
+                  Custom
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+
+<!-- Javascript for event listeners -->
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+<script src="{{ url_for('static', filename='js/utils/ruler.js') }}"></script>
+
+{% endblock %}
