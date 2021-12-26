@@ -45,26 +45,34 @@ def set_stage_slow_axis_scan_rate():
 def set_stage_custom_fast_axis_scan_rate():
     value = request.get_json()["value"]
     # Changed this 1000 to 4 times the current resolution
-    resolution = config["User.ScanSettings"].getfloat("Resolution")
-    sampling = 2*(4*resolution)*value
-    slow = (2.0*value) / (4*resolution)
-    logger.info("AAHHHAHA")
+    # resolution = config["User.ScanSettings"].getfloat("Resolution")
+    # sampling = 2*(4*resolution)*value
+    # slow = (2.0*value) / (4*resolution)
     logger.info(f"Set custom fast axis scan rate to {value} and slow to {slow} at {sampling} hz")
 
     config["ScanningStage.Custom"]["FastAxisScanRateHz"] = str(value)
-    config["ScanningStage.Custom"]["SlowAxisScanRateHz"] = str(slow)
-    config["ScanningStage.Custom"]["SamplingFrequencyHz"] = str(sampling)
+    # config["ScanningStage.Custom"]["SlowAxisScanRateHz"] = str(slow)
+    # config["ScanningStage.Custom"]["SamplingFrequencyHz"] = str(sampling)
     save_config()
 
     return jsonify(success=True)
 
-# This function is no longer going to be used
 @bp.route("/set_stage_custom_slow_axis_scan_rate", methods=["POST"])
 def set_stage_custom_slow_axis_scan_rate():
     value = request.get_json()["value"]
     logger.info(f"Set custom slow axis scan rate to {value}")
 
     config["ScanningStage.Custom"]["SlowAxisScanRateHz"] = str(value)
+    save_config()
+
+    return jsonify(success=True)
+
+@bp.route("/set_stage_custom_sampling_frequency", methods=["POST"])
+def set_stage_custom_sampling_frequency():
+    value = request.get_json()["value"]
+    logger.info(f"Set custom sampling frequenncy to {value}")
+
+    config["ScanningStage.Custom"]["SamplingFrequencyHz"] = str(value)
     save_config()
 
     return jsonify(success=True)

@@ -13,7 +13,7 @@ the control of the 50kOhm package.
 
 Analog Devices datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/AD5253_5254.pdf
 """
-import smbus
+import smbus2
 
 from awesem import is_machine_raspberry_pi
 from loguru import logger

@@ -84,6 +84,22 @@
                 </div>
                 <div class="row image-settings-slider">
                     <div class="col-sm-4 col-form-label text-right">
+                        Slow Axis Scan Rate
+                    </div>
+                    <div class="col-sm">
+                        <input id="inputStageCustomSlowAxisScanRate" data-suffix="Hz" value='{{ config["ScanningStage.Custom"]["SlowAxisScanRateHz"] }}' min="1" max="1000" step="1" data-decimals="1" type="number" />
+                    </div>
+                </div>
+                <div class="row image-settings-slider">
+                    <div class="col-sm-4 col-form-label text-right">
+                        Sampling Rate
+                    </div>
+                    <div class="col-sm">
+                        <input id="inputStageCustomSamplingFrequency" data-suffix="Hz" value='{{ config["ScanningStage.Custom"]["SamplingFrequencyHz"] }}' min="1" max="1000" step="1" data-decimals="1" type="number" />
+                    </div>
+                </div>
+                <div class="row image-settings-slider">
+                    <div class="col-sm-4 col-form-label text-right">
                         Image Resolution
                     </div>
                     <div class="col-sm">
