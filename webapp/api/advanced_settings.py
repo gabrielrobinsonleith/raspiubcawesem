@@ -48,7 +48,7 @@ def set_stage_custom_fast_axis_scan_rate():
     # resolution = config["User.ScanSettings"].getfloat("Resolution")
     # sampling = 2*(4*resolution)*value
     # slow = (2.0*value) / (4*resolution)
-    logger.info(f"Set custom fast axis scan rate to {value} and slow to {slow} at {sampling} hz")
+    logger.info(f"Set custom fast axis scan rate to {value}")
 
     config["ScanningStage.Custom"]["FastAxisScanRateHz"] = str(value)
     # config["ScanningStage.Custom"]["SlowAxisScanRateHz"] = str(slow)

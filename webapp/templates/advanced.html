@@ -87,7 +87,7 @@
                         Slow Axis Scan Rate
                     </div>
                     <div class="col-sm">
-                        <input id="inputStageCustomSlowAxisScanRate" data-suffix="Hz" value='{{ config["ScanningStage.Custom"]["SlowAxisScanRateHz"] }}' min="1" max="1000" step="1" data-decimals="1" type="number" />
+                        <input id="inputStageCustomSlowAxisScanRate" data-suffix="Hz" value='{{ config["ScanningStage.Custom"]["SlowAxisScanRateHz"] }}' min="0.01" max="2" step="0.01" data-decimals="2" type="number" />
                     </div>
                 </div>
                 <div class="row image-settings-slider">
@@ -95,7 +95,7 @@
                         Sampling Rate
                     </div>
                     <div class="col-sm">
-                        <input id="inputStageCustomSamplingFrequency" data-suffix="Hz" value='{{ config["ScanningStage.Custom"]["SamplingFrequencyHz"] }}' min="1" max="1000" step="1" data-decimals="1" type="number" />
+                        <input id="inputStageCustomSamplingFrequency" data-suffix="Hz" value='{{ config["ScanningStage.Custom"]["SamplingFrequencyHz"] }}' min="1" max="100000" step="1" data-decimals="1" type="number" />
                     </div>
                 </div>
                 <div class="row image-settings-slider">
@@ -103,7 +103,7 @@
                         Image Resolution
                     </div>
                     <div class="col-sm">
-                        <input id="inputResolution" data-suffix="Pixels" value='{{ config["User.ScanSettings"]["Resolution"] }}' min="50" max="250" step="50" data-decimals="1" type="number" />
+                        <input id="inputResolution" data-suffix="Pixels" value='{{ config["User.ScanSettings"]["Resolution"] }}' min="1" max="3000" step="1" data-decimals="1" type="number" />
                     </div>
                 </div>
             </div>
