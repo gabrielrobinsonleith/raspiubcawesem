@@ -1,0 +1,33 @@
+/* Show a reference ruler at the bottom of the scan image
+ */
+
+.ruler, .ruler li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: inline-block;
+}
+/* IE6-7 Fix */
+.ruler, .ruler li {
+    display: inline;
+}
+.ruler {
+    margin: 0;
+    height: 3em;
+    white-space: nowrap;
+}
+.ruler li {
+    margin-left: 1cm;
+    width: 2em;
+    text-align: center;
+    position: relative;
+    text-shadow: 1px 1px hsl(60, 60%, 84%);
+}
+.ruler li:before {
+    content: '';
+    position: absolute;
+    border-left: 2px solid #ccc;
+    height: .64em;
+    top: -.64em;
+    left: 3px;
+}

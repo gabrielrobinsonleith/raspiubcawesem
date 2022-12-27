@@ -1,0 +1,14 @@
+**/__pycache/
+*.pyc
+*.egg-info/
+
+.vscode/
+
+# Virtual environment
+env/
+docs/_build/
+docs/_source/
+
+# Ctags
+tags
+ua02/

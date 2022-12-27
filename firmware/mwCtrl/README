@@ -1,0 +1,26 @@
+# Pins
+
+- SPI
+  Teensy         AD5624
+  ------         ------
+  SS(9)     -    sync(6)   
+  MOSI(11)  -    DIN(8)
+  SCK(13)   -    SCLK(7)
+
+- UART (Highspeed)
+  Teensy         PI 
+  ------         ------
+  TX(10)    -    RXD0(10)
+
+- UART (Communication)
+  Teensy         PI 
+  ------         ------
+  USB            USB
+
+- GPIO
+  DACISR(30), ADCISR(31)
+
+- ADC (Photodiode)
+  Teensy        
+  ------        
+  A8(22)
